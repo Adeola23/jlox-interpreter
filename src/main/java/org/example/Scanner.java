@@ -67,6 +67,10 @@ class Scanner {
                     addToken(SLASH);
                 }
                 break;
+            case '"':
+                string();
+                break;
+
 
 
             default:
@@ -74,6 +78,24 @@ class Scanner {
                 break;
 
         }
+    }
+
+    private void string() {
+        while(peek() != '"' && !isAtEnd()){
+            if(peek() == '\n') line++;
+            advance();
+
+
+        }
+        if(isAtEnd()){
+            Lox.error(line, "Unterminated string");
+            return;
+        }
+
+        advance();
+
+        String value = source.substring(start + 1, current -1);
+        addToken(STRING,value);
     }
 
     private boolean match (char expected){
