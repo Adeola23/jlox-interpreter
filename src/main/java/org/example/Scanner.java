@@ -51,6 +51,13 @@ class Scanner {
             case '!':
                 addToken(match('=') ? BANG_EQUAL : BANG);
                 break;
+            case ' ':
+            case '\r':
+            case '\t':
+                break;
+            case'\n':
+                line++;
+                break;
 
 
             case '/':
