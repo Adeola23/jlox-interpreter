@@ -51,6 +51,8 @@ public class Lox {
 
     }
 
+
+
     private static  void  run(String source){
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
@@ -60,6 +62,8 @@ public class Lox {
     }
 
     //error handling
+    // It's a good engineering practice to separate the code that generates
+    // the error from the code that reports them
 
     static void error (int line, String message){
         report (line,"", message);
