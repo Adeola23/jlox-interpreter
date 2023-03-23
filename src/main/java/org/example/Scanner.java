@@ -11,9 +11,34 @@ class Scanner {
 
     private int line = 1;
 
+    private static final Map<String, TokenType> keywords;
+
+
+    static {
+        keywords = new HashMap<>();
+        keywords.put("and",    AND);
+        keywords.put("class",  CLASS);
+        keywords.put("else",   ELSE);
+        keywords.put("false",  FALSE);
+        keywords.put("for",    FOR);
+        keywords.put("fun",    FUN);
+        keywords.put("if",     IF);
+        keywords.put("nil",    NIL);
+        keywords.put("or",     OR);
+        keywords.put("print",  PRINT);
+        keywords.put("return", RETURN);
+        keywords.put("super",  SUPER);
+        keywords.put("this",   THIS);
+        keywords.put("true",   TRUE);
+        keywords.put("var",    VAR);
+        keywords.put("while",  WHILE);
+    }
+
     Scanner(String source){
         this.source = source;
     }
+
+
 
     List<Token> scanTokens() {
         while(!isAtEnd()){
@@ -70,12 +95,19 @@ class Scanner {
             case '"':
                 string();
                 break;
+            case 'o':
+                if(peek() == 'r'){
+                    addToken(OR);
+                }
+                break;
 
 
 
             default:
                 if (isDigit(c)){
                     number ();
+                } else if (isAlpha(c)) {
+                    identifier();
                 } else {
                     Lox.error(line, "Unexpected character.");
                 }
@@ -84,6 +116,27 @@ class Scanner {
 
         }
     }
+
+    private void identifier(){
+        while(isAlphanumeric(peek())) advance();
+
+        String text = source.substring(start, current);
+        TokenType type = keywords.get(text);
+        if (type == null) type = IDENTIFIER;
+        addToken(IDENTIFIER);
+    }
+
+    private boolean isAlpha(char c){
+        return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_';
+    }
+
+    private boolean isAlphanumeric(char c){
+        return isAlpha(c) || isDigit(c);
+
+    }
+
 
     private void number(){
         while(isDigit(peek())) advance();
