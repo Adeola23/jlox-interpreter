@@ -2,6 +2,7 @@ package tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +24,24 @@ public class GenerateAst {
 
         ));
     }
-    
+
+    private static void defineAst(String outputDir, String baseName, List<String> types) throws  IOException{
+        String path = outputDir + "/" + baseName + ".java";
+        PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
+
+        writer.println("package org.example");
+        writer.println();
+        writer.println("import java.util.List");
+        writer.println("abstract class " + baseName + " {");
+        for (String type : types){
+            String className = type.split(":")[0].trim();
+            String fields = type.split(":")[1].trim();
+            defineType(writer, baseName, className, fields);
+        }
+        writer.println("}");
+        writer.close();
+
+
+    }
 
 }
