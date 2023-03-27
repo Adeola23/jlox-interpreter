@@ -2,13 +2,15 @@ package tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 
 public class GenerateAst {
     public static void main(String[] args) throws IOException{
+        System.out.println(args.length);
         if(args.length != 1){
             System.err.println("Usage: generate_ast <output directory>");
             System.exit(64);
@@ -27,7 +29,7 @@ public class GenerateAst {
 
     private static void defineAst(String outputDir, String baseName, List<String> types) throws  IOException{
         String path = outputDir + "/" + baseName + ".java";
-        PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
+        PrintWriter writer = new PrintWriter(path, UTF_8);
 
         writer.println("package org.example");
         writer.println();
@@ -43,5 +45,28 @@ public class GenerateAst {
 
 
     }
+
+    private static  void defineType(PrintWriter writer, String baseName,
+                                    String className, String fieldList){
+        writer.println(" static class " + className + "extends " + baseName + " {");
+        writer.println("    " + className + "(" + fieldList + " ) {");
+        String[] fields = fieldList.split(", ");
+        for (String field : fields){
+            String name = field.split (" ")[1];
+            writer.println("      this." + name + " = " + name + ";");
+        }
+
+        writer.println("  }");
+        writer.println();
+        for (String field: fields){
+            writer.println("  final " + field + ";");
+        }
+
+        writer.println(" }");
+
+
+    }
+
+
 
 }
