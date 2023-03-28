@@ -40,7 +40,7 @@ class AstPrinter implements Expr.Visitor<String> {
 
         return builder.toString();
     }
-    // main method manually instantiates a tree and print it 
+    // main method manually instantiates a tree and print it
 
 //    public static void main(String[] args){
 //        Expr expression = new Expr.Binary(
