@@ -104,6 +104,20 @@ class Parser {
         return false;
     }
 
+    //It’s similar to match() in that it checks to see if the next token is of the expected type.
+    // If so, it consumes it
+    // and everything is groovy. If some other token is there, then we’ve hit an error.
+
+    private Token consume(TokenType type, String message) {
+        if(check(type)) return advance();
+        throw error(peek(), message);
+    }
+
+    private ParseError error(Token token, String message){
+        Lox.error(token, message);
+        return new ParserError();
+    }
+
     private boolean check (TokenType type){
         if(isAtEnd()) return false;
         return peek().type == type;
