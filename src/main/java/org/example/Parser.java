@@ -4,6 +4,8 @@ import java.util.List;
 import static org.example.TokenType.*;
 
 class Parser {
+
+    private static class ParseError extends RuntimeException{}
     private final List<Token> tokens;
     private int current = 0;
 
@@ -76,7 +78,7 @@ class Parser {
         return primary();
     }
 
-    private  Expr primary(){
+    private  Expr primary() {
         if (match(FALSE)) return new Expr.Literal(false);
         if (match(TRUE)) return new Expr.Literal(true);
         if (match(NIL)) return new Expr.Literal(null);
@@ -115,7 +117,7 @@ class Parser {
 
     private ParseError error(Token token, String message){
         Lox.error(token, message);
-        return new ParserError();
+        return new ParseError();
     }
 
     private boolean check (TokenType type){
