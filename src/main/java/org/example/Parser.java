@@ -44,7 +44,7 @@ class Parser {
     }
 
     private Expr comparison(){
-        Expr expr = term();
+        Expr expr =     term();
         while(match (GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)){
             Token operator = previous();
             Expr right = term();
@@ -122,6 +122,7 @@ class Parser {
 
     private Token consume(TokenType type, String message) {
         if(check(type)) return advance();
+
         throw error(peek(), message);
     }
 
@@ -158,7 +159,7 @@ class Parser {
     }
 
     private Token advance(){
-        if(isAtEnd()) current++;
+        if(!isAtEnd()) current++;
         return previous();
 
     }
@@ -182,6 +183,6 @@ class Parser {
     //previous returns the most recently consumed token
 
     private Token previous(){
-        return tokens.get(current - 1);
+        return tokens.get(current-1);
     }
 }

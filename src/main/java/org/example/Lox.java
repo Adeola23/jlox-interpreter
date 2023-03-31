@@ -42,10 +42,8 @@ public class Lox {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
         for(;;){
-            System.out.println("> 2");
-            String line = reader.readLine();
-            if(line == null) break;
-            run (line);
+            System.out.println("> ");
+            run(reader.readLine());
             hadError= false;
         }
 
@@ -57,7 +55,7 @@ public class Lox {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
         Parser parser = new Parser(tokens);
-        Expr expression = parser .parse();
+        Expr expression = parser.parse();
         //stop if there was a syntax error
 
         if(hadError) return;
