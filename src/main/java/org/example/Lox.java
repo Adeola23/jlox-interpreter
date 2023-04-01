@@ -10,6 +10,7 @@ import java.util.List;
 
 
 public class Lox {
+    private static final Interpreter intepreter = new Interpreter();
     static  boolean hadError = false;
     static boolean hadRuntimeError = false;
     public static void main(String[] args)  throws IOException{
@@ -61,6 +62,7 @@ public class Lox {
         //stop if there was a syntax error
 
         if(hadError) return;
+        intepreter.interpret(expression);
 
         System.out.println(new AstPrinter().print(expression));
     }
