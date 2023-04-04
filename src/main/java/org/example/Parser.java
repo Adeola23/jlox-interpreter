@@ -34,7 +34,7 @@ class Parser {
 //    }
 
     private Expr expression(){
-        return equality();
+        return assignment();
 
     }
 
@@ -83,6 +83,23 @@ class Parser {
         Expr expr = expression();
         consume(SEMICOLON, "Expect ';' after expression.");
         return new Stmt.Expression(expr);
+    }
+
+    private Expr assignment(){
+        Expr expr = equality();
+        if(match(EQUAL)){
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable){
+                Token name = ((Expr.Variable)expr).name;
+                return  new Expr.Assign(name, value);
+            }
+            error(equals, "Invalid assignment target");
+        }
+
+        return expr;
+
     }
 
     // The first comparison nonterminal in the body translates

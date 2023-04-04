@@ -13,6 +13,14 @@ import java.util.Map;
 
      }
 
+     void assign(Token name, Object value){
+         if(values.containsKey(name.lexeme)){
+             values.put(name.lexeme, value);
+             return;
+         }
+         throw new RuntimeError(name, "Undefined variable'" + name.lexeme + "'.");
+     }
+
      void define(String name, Object value){
          values.put(name, value);
      }
